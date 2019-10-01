@@ -98,13 +98,13 @@ Votre application doit pouvoir déterminer de façon fiable l'adresse IP de son 
 
 ```yaml
 env:
-  - name: DOGSTATSD_HOST_IP
+  - name: DD_AGENT_HOST
     valueFrom:
       fieldRef:
         fieldPath: status.hostIP
 ```
 
-Grâce à ce manifeste, un pod exécutant votre application peut transmettre des métriques DogStatsD via le port `8125` sur `$DOGSTATSD_HOST_IP`.
+Grâce à ce manifeste, un pod exécutant votre application peut transmettre des métriques DogStatsD via le port `8125` sur `$DD_AGENT_HOST`.
 
 ## Détection de l'origine via UDP
 
@@ -152,7 +152,7 @@ import "github.com/DataDog/datadog-go/statsd"
 Avant de pouvoir ajouter des counters, gauges et autres métriques custom, [initialisez le client StatsD][18] avec l'emplacement du service DogStatsD, en fonction de la méthode choisie :
 
 - Socket de domaine Unix : `$DD_DOGSTATSD_SOCKET`
-- hostPort : `$DOGSTATSD_HOST_IP`
+- hostPort : `$DD_AGENT_HOST`
 
 ```go
 func main(){
@@ -160,7 +160,7 @@ func main(){
   // Restant du code main() omis par souci de concision
 
   // utiliser le port et l'IP du host pour définir l'endpoint
-  dogstatsd, err := statsd.New(os.Getenv("DOGSTATSD_HOST_IP") + ":8125")
+  dogstatsd, err := statsd.New(os.Getenv("DD_AGENT_HOST") + ":8125")
   // ou utiliser le chemin du socket Unix
   // dogstatsd, err = statsd.New(os.Getenv("DD_DOGSTATSD_SOCKET"))
   if err != nil{
