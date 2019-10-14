@@ -36,6 +36,7 @@ Here are a few examples for supported clients:
 {{% tab "Go" %}}
 Use Datadog's official Golang library [datadog-go][1]:
 
+Note: For the version 3.0 and above the client is buffered by default.
 ```go
 // Create a buffered dogstatsd client instance with 256 maximum buffered metrics
 client, err := statsd.New("127.0.0.1:8125",
